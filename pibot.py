@@ -19,7 +19,7 @@ def main(filter, url, test):
     """Sends a notification to a discord webhook URL when a Raspberry Pi is in stock."""
     if test:
         test_script(filter, url)
-        quit()
+        exit()
 
     start_feed(filter, url)
     while True:
@@ -30,26 +30,26 @@ def main(filter, url, test):
 # Checks for new updates
 def check_feed(filter, url):
     global timestamp
-    print('Checking for updates...', end =" " )
+    click.echo('Checking for updates...', nl=False)
     feed = feedparser.parse(f'https://rpilocator.com/feed/{filter}')
     
     if feed.status == 200: # healthy response
         if not feed.entries: 
-            print('No results.')
+            click.echo('No results.')
         elif not feed.entries[0].published == timestamp: # check if result has a newer timestamp
             timestamp = feed.entries[0].published
-            print('Update found!')
+            click.echo('Update found!')
             notify(feed.entries[0], url)
         else:
-            print('No updates.')
+            click.echo('No updates.')
     else:
-        print('Error checking RSS feed. The link could be down or your query could be incorect.')
+        click.echo('Error checking RSS feed. The link could be down or your query could be incorect.', err=True)
 
 
 # Sets an initial timestamp
 def start_feed(filter, url):
     global timestamp
-    print('Initializing feed...')
+    click.echo('Initializing feed...')
     feed = feedparser.parse(f'https://rpilocator.com/feed/{filter}')
     
     if feed.status == 200:
@@ -57,9 +57,9 @@ def start_feed(filter, url):
         if feed.entries:
             timestamp = feed.entries[0].published
         else:
-            print('No results.')
+            click.echo('No results.')
     else:
-        print('Error checking RSS feed. The link could be down or your query could be incorect.')
+        click.echo('Error checking RSS feed. The link could be down or your query could be incorect.', err=True)
 
 
 # Sends discord webhook
@@ -73,7 +73,7 @@ def notify(entry, url):
 # Quick feed & webhook test
 def test_script(filter, url):
     click.echo("Test Mode")
-    click.echo('Initializing feed...')
+    click.echo('Initializing feed...', nl=False)
     
     feed = feedparser.parse(f'https://rpilocator.com/feed/{filter}')
     
@@ -85,7 +85,7 @@ def test_script(filter, url):
         else:
             click.echo('No results.')
     else:
-        click.echo('Error checking RSS feed. The link could be down or your query could be incorect.')
+        click.echo('Error checking RSS feed. The link could be down or your query could be incorect.', err=True)
 
 
 if __name__ == '__main__':
