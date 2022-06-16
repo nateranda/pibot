@@ -44,6 +44,7 @@ def check_feed(filter, url):
             click.echo('No updates.')
     else:
         click.echo('Error checking RSS feed. The link could be down or your query could be incorect.', err=True)
+        exit()
 
 
 # Sets an initial timestamp
@@ -60,6 +61,7 @@ def start_feed(filter, url):
             click.echo('No results.')
     else:
         click.echo('Error checking RSS feed. The link could be down or your query could be incorect.', err=True)
+        exit()
 
 
 # Sends discord webhook
@@ -86,6 +88,7 @@ def test_script(filter, url):
             click.echo('No results.')
     else:
         click.echo('Error checking RSS feed. The link could be down or your query could be incorect.', err=True)
+        exit()
 
 
 if __name__ == '__main__':
