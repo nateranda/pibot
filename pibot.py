@@ -30,7 +30,7 @@ def main(filter, url, test):
 # Checks for new updates
 def check_feed(filter, url):
     global timestamp
-    click.echo('Checking for updates...', nl=False)
+    click.echo('Checking for updates... ', nl=False)
     feed = feedparser.parse(f'https://rpilocator.com/feed/{filter}')
     
     if feed.status == 200: # healthy response
@@ -73,7 +73,7 @@ def notify(entry, url):
 # Quick feed & webhook test
 def test_script(filter, url):
     click.echo("Test Mode")
-    click.echo('Initializing feed...', nl=False)
+    click.echo('Initializing feed... ', nl=False)
     
     feed = feedparser.parse(f'https://rpilocator.com/feed/{filter}')
     
